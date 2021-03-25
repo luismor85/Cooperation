@@ -1,0 +1,859 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Cooperation in innovation},
+  pdfauthor={luismor},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Cooperation in innovation}
+\author{luismor}
+\date{3/25/2021}
+
+\begin{document}
+\maketitle
+
+\hypertarget{section}{%
+\subsection{}\label{section}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Carga de datos}
+\KeywordTok{library}\NormalTok{(readxl)}
+\KeywordTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df <-}\StringTok{ }\KeywordTok{read_excel}\NormalTok{(}\StringTok{"/Users/unimooc/Dropbox/2021/Directorio R/Research/Cooperation/DATOS 2004-2014.xlsx"}\NormalTok{, }\DataTypeTok{sheet =} \StringTok{"2004-2014"}\NormalTok{)}
+\KeywordTok{head}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 41
+##   IDENT ACTIVIDAD PERIODO INTEC INTECMAN  CIFRA  GTINN  INTINN TAMANO MDOLOCAL
+##   <dbl>     <dbl> <chr>   <dbl> <chr>     <dbl>  <dbl>   <dbl>  <dbl>    <dbl>
+## 1     1        15 2004-2~     2 2.4      7.81e6  14232 0.00182     49        1
+## 2     2        17 2004-2~     2 2.4      3.19e7 291379 0.00913    212        1
+## 3     3        19 2004-2~     2 2.4      4.52e6 177232 0.0392      49        1
+## 4     4        18 2004-2~     2 2.4      1.33e7 172760 0.0130      96        1
+## 5     5        33 2004-2~     2 2.1      2.82e8 320506 0.00114   1129        1
+## 6     6        34 2004-2~     2 2.2      1.42e8 713878 0.00504    319        1
+## # ... with 31 more variables: MDONAC <dbl>, MDOUE <dbl>, INNPROD <dbl>,
+## #   INNOBIEN <dbl>, INNOSERV <dbl>, INNPROC <dbl>, INNFABRI <dbl>,
+## #   INNLOGIS <dbl>, INNAPOYO <dbl>, COOP <dbl>, GIO1 <dbl>, GIO2 <dbl>,
+## #   GIO3 <dbl>, GIO4 <dbl>, GIO5 <dbl>, GIO6 <dbl>, GIO7 <dbl>, GIO8 <dbl>,
+## #   GIO9 <dbl>, F1 <dbl>, F2 <dbl>, F3 <dbl>, F4 <dbl>, F5 <dbl>, F6 <dbl>,
+## #   F7 <dbl>, F8 <dbl>, F9 <dbl>, F10 <dbl>, F11 <dbl>, TIEMPO <dbl>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df <-}\StringTok{ }\KeywordTok{na.omit}\NormalTok{(df)}
+\KeywordTok{anyNA}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df.gr <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(df, TIEMPO }\OperatorTok{<=}\StringTok{ }\DecValTok{2007}\NormalTok{)}
+\NormalTok{df.cr <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(df, TIEMPO }\OperatorTok{%in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{2008}\NormalTok{, }\DecValTok{2009}\NormalTok{, }\DecValTok{2010}\NormalTok{))}
+\NormalTok{df.re <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(df, TIEMPO }\OperatorTok{>=}\StringTok{ }\DecValTok{2011}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{chi-cuadrado}{%
+\subsection{Chi Cuadrado}\label{chi-cuadrado}}
+
+Creamos un dataframe con las variables COOP y Tiempo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df.or <-}\StringTok{ }\NormalTok{df[,}\KeywordTok{c}\NormalTok{(}\StringTok{"COOP"}\NormalTok{,}\StringTok{"TIEMPO"}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+Creamos variables categóricas con la inormación de ``TIEMPO'' y ``COOP''
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{facTiemp <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(df}\OperatorTok{$}\NormalTok{TIEMPO,}
+                 \DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\DecValTok{2004}\NormalTok{,}\DecValTok{2005}\NormalTok{,}\DecValTok{2006}\NormalTok{,}\DecValTok{2007}\NormalTok{,}
+                            \DecValTok{2008}\NormalTok{,}\DecValTok{2009}\NormalTok{,}\DecValTok{2010}
+\NormalTok{                            ,}\DecValTok{2011}\NormalTok{, }\DecValTok{2012}\NormalTok{, }\DecValTok{2013}\NormalTok{, }\DecValTok{2014}\NormalTok{),}
+                 \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"Growth"}\NormalTok{, }\StringTok{"Growth"}\NormalTok{, }\StringTok{"Growth"}\NormalTok{, }\StringTok{"Growth"}\NormalTok{, }
+                            \StringTok{"Crisis"}\NormalTok{, }\StringTok{"Crisis"}\NormalTok{, }\StringTok{"Crisis"}\NormalTok{, }
+                            \StringTok{"Recovery"}\NormalTok{, }\StringTok{"Recovery"}\NormalTok{, }\StringTok{"Recovery"}\NormalTok{, }\StringTok{"Recovery"}\NormalTok{))}
+\NormalTok{df}\OperatorTok{$}\NormalTok{facTiemp <-}\StringTok{ }\NormalTok{facTiemp}
+
+\NormalTok{facCoop <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(df}\OperatorTok{$}\NormalTok{COOP,}
+                 \DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+                 \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"NoCoop"}\NormalTok{, }\StringTok{"Coop"}\NormalTok{))}
+
+\NormalTok{df}\OperatorTok{$}\NormalTok{facCoop <-}\StringTok{ }\NormalTok{facCoop}
+\end{Highlighting}
+\end{Shaded}
+
+Creamos variables dicotómicas en función de los distintos momentos del
+periodo económico
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Etapa de crecimiento}
+\NormalTok{df}\OperatorTok{$}\NormalTok{facTiempG <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(df}\OperatorTok{$}\NormalTok{TIEMPO,}
+                   \DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\DecValTok{2004}\NormalTok{,}\DecValTok{2005}\NormalTok{,}\DecValTok{2006}\NormalTok{,}\DecValTok{2007}\NormalTok{,}
+                              \DecValTok{2008}\NormalTok{,}\DecValTok{2009}\NormalTok{,}\DecValTok{2010}
+\NormalTok{                              ,}\DecValTok{2011}\NormalTok{, }\DecValTok{2012}\NormalTok{, }\DecValTok{2013}\NormalTok{, }\DecValTok{2014}\NormalTok{),}
+                   \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"1"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }
+                              \StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }
+                              \StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{))}
+
+\CommentTok{#Etapa de crisis}
+\NormalTok{df}\OperatorTok{$}\NormalTok{facTiempC <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(df}\OperatorTok{$}\NormalTok{TIEMPO,}
+                    \DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\DecValTok{2004}\NormalTok{,}\DecValTok{2005}\NormalTok{,}\DecValTok{2006}\NormalTok{,}\DecValTok{2007}\NormalTok{,}
+                               \DecValTok{2008}\NormalTok{,}\DecValTok{2009}\NormalTok{,}\DecValTok{2010}
+\NormalTok{                               ,}\DecValTok{2011}\NormalTok{, }\DecValTok{2012}\NormalTok{, }\DecValTok{2013}\NormalTok{, }\DecValTok{2014}\NormalTok{),}
+                    \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }
+                               \StringTok{"1"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }
+                               \StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{))}
+
+\CommentTok{#Etapa de recuperación}
+\NormalTok{df}\OperatorTok{$}\NormalTok{facTiempR <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(df}\OperatorTok{$}\NormalTok{TIEMPO,}
+                    \DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\DecValTok{2004}\NormalTok{,}\DecValTok{2005}\NormalTok{,}\DecValTok{2006}\NormalTok{,}\DecValTok{2007}\NormalTok{,}
+                               \DecValTok{2008}\NormalTok{,}\DecValTok{2009}\NormalTok{,}\DecValTok{2010}
+\NormalTok{                               ,}\DecValTok{2011}\NormalTok{, }\DecValTok{2012}\NormalTok{, }\DecValTok{2013}\NormalTok{, }\DecValTok{2014}\NormalTok{),}
+                    \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }
+                               \StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }\StringTok{"0"}\NormalTok{, }
+                               \StringTok{"1"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }\StringTok{"1"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{chi-cuadrado---pearson-para-la-primera-hipuxf3tesis}{%
+\subsubsection{Chi cuadrado - Pearson para la primera
+hipótesis}\label{chi-cuadrado---pearson-para-la-primera-hipuxf3tesis}}
+
+H1: Companies change their perspective on cooperation to develop
+innovation according to the economic cycle.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tablaCoop <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{facCoop, df}\OperatorTok{$}\NormalTok{facTiemp)}
+\KeywordTok{chisq.test}\NormalTok{(tablaCoop,}\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  tablaCoop
+## X-squared = 620.47, df = 2, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tablaCoopG <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{facCoop, df}\OperatorTok{$}\NormalTok{facTiempG)}
+\KeywordTok{chisq.test}\NormalTok{(tablaCoopG, }\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  tablaCoopG
+## X-squared = 339.69, df = 1, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tablaCoopC <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{facCoop, df}\OperatorTok{$}\NormalTok{facTiempC)}
+\KeywordTok{chisq.test}\NormalTok{(tablaCoopC, }\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  tablaCoopC
+## X-squared = 13.291, df = 1, p-value = 0.0002667
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tablaCoopR <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{facCoop, df}\OperatorTok{$}\NormalTok{facTiempR)}
+\KeywordTok{chisq.test}\NormalTok{(tablaCoopR, }\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  tablaCoopR
+## X-squared = 577.95, df = 1, p-value < 2.2e-16
+\end{verbatim}
+
+Cálculo de medias
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{mean}\NormalTok{(df}\OperatorTok{$}\NormalTok{COOP)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.1508814
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{mean}\NormalTok{(df.gr}\OperatorTok{$}\NormalTok{COOP)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.1242933
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{mean}\NormalTok{(df.cr}\OperatorTok{$}\NormalTok{COOP)    }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.143812
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{mean}\NormalTok{(df.re}\OperatorTok{$}\NormalTok{COOP)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.199162
+\end{verbatim}
+
+Representación gráfica
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mosaicplot}\NormalTok{(tablaCoop, }\DataTypeTok{ylab=}\StringTok{"Economy Cycle"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Cooperation"}\NormalTok{,}
+           \DataTypeTok{shade =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Cooperation_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\hypertarget{chi-cuadrado---pearson-para-la-segunda-hipuxf3tesis}{%
+\subsubsection{Chi cuadrado - Pearson para la segunda
+hipótesis}\label{chi-cuadrado---pearson-para-la-segunda-hipuxf3tesis}}
+
+H2: Companies change their views on the competitive need for innovation
+depending on the economic cycle.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    DOI_}\DecValTok{1}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO1, df}\OperatorTok{$}\NormalTok{facTiemp)}
+    \KeywordTok{chisq.test}\NormalTok{(DOI_}\DecValTok{1}\NormalTok{,}\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  DOI_1
+## X-squared = 723.59, df = 6, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    DOI_}\DecValTok{2}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO2, df}\OperatorTok{$}\NormalTok{facTiemp)}
+    \KeywordTok{chisq.test}\NormalTok{(DOI_}\DecValTok{2}\NormalTok{,}\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  DOI_2
+## X-squared = 1281.2, df = 6, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    DOI_}\DecValTok{3}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO3, df}\OperatorTok{$}\NormalTok{facTiemp)}
+    \KeywordTok{chisq.test}\NormalTok{(DOI_}\DecValTok{3}\NormalTok{,}\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  DOI_3
+## X-squared = 905.93, df = 6, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    DOI_}\DecValTok{4}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO4, df}\OperatorTok{$}\NormalTok{facTiemp)}
+    \KeywordTok{chisq.test}\NormalTok{(DOI_}\DecValTok{4}\NormalTok{,}\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  DOI_4
+## X-squared = 645.66, df = 6, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    DOI_}\DecValTok{5}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO5, df}\OperatorTok{$}\NormalTok{facTiemp)}
+    \KeywordTok{chisq.test}\NormalTok{(DOI_}\DecValTok{5}\NormalTok{,}\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  DOI_5
+## X-squared = 371.83, df = 6, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    DOI_}\DecValTok{6}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO6, df}\OperatorTok{$}\NormalTok{facTiemp)}
+    \KeywordTok{chisq.test}\NormalTok{(DOI_}\DecValTok{6}\NormalTok{,}\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  DOI_6
+## X-squared = 1607.7, df = 6, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    DOI_}\DecValTok{7}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO7, df}\OperatorTok{$}\NormalTok{facTiemp)}
+    \KeywordTok{chisq.test}\NormalTok{(DOI_}\DecValTok{7}\NormalTok{,}\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  DOI_7
+## X-squared = 7763.1, df = 6, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    DOI_}\DecValTok{8}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO8, df}\OperatorTok{$}\NormalTok{facTiemp)}
+    \KeywordTok{chisq.test}\NormalTok{(DOI_}\DecValTok{8}\NormalTok{,}\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  DOI_8
+## X-squared = 748.2, df = 6, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    DOI_}\DecValTok{9}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO9, df}\OperatorTok{$}\NormalTok{facTiemp)}
+    \KeywordTok{chisq.test}\NormalTok{(DOI_}\DecValTok{9}\NormalTok{,}\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  DOI_9
+## X-squared = 201.83, df = 6, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{#Replicar para facTiempG, facTiempC, facTiempR}
+\end{Highlighting}
+\end{Shaded}
+
+Cálculo de medias
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{mean}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.090599
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{mean}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.287346
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{mean}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.968636
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{mean}\NormalTok{(df.gr}\OperatorTok{$}\NormalTok{GIO1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.160374
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{mean}\NormalTok{(df.cr}\OperatorTok{$}\NormalTok{GIO1)    }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.108191
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{mean}\NormalTok{(df.re}\OperatorTok{$}\NormalTok{GIO1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.964908
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#Replicar para todos los casos restantes}
+\end{Highlighting}
+\end{Shaded}
+
+Representación gráfica
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+   \KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{1}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Economy Cycle"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+               \DataTypeTok{shade =}\NormalTok{ T)}
+    
+    \KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{2}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Economy Cycle"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+               \DataTypeTok{shade =}\NormalTok{ T)}
+    
+    \KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{3}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Economy Cycle"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+               \DataTypeTok{shade =}\NormalTok{ T)    }
+
+    \KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{4}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Economy Cycle"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+               \DataTypeTok{shade =}\NormalTok{ T)}
+    
+    \KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{5}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Economy Cycle"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+               \DataTypeTok{shade =}\NormalTok{ T)}
+    
+    \KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{6}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Economy Cycle"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+               \DataTypeTok{shade =}\NormalTok{ T)}
+    
+    \KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{7}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Economy Cycle"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+               \DataTypeTok{shade =}\NormalTok{ T)}
+    
+    \KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{8}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Economy Cycle"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+               \DataTypeTok{shade =}\NormalTok{ T)}
+    
+    \KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{9}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Economy Cycle"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+               \DataTypeTok{shade =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Cooperation_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\hypertarget{chi-cuadrado---pearson-para-la-tercera-hipuxf3tesis}{%
+\subsubsection{Chi cuadrado - Pearson para la tercera
+hipótesis}\label{chi-cuadrado---pearson-para-la-tercera-hipuxf3tesis}}
+
+H3: Companies change their views on the problems and barriers to entry
+for developing innovation according to the economic cycle.
+
+Mismo proceso que anterior.
+
+\hypertarget{u-de-mann-whitney}{%
+\subsection{U de Mann-Whitney}\label{u-de-mann-whitney}}
+
+\hypertarget{mann-whitney-para-la-cuarta-hipuxf3tesis}{%
+\subsubsection{Mann-Whitney para la cuarta
+hipótesis}\label{mann-whitney-para-la-cuarta-hipuxf3tesis}}
+
+H4: The firms' perspective on the competitive importance of innovation
+and the possible problems for the development of innovation conditions
+their response on whether or not to cooperate with technology centres.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(survival)}
+\KeywordTok{library}\NormalTok{(coin)}
+\end{Highlighting}
+\end{Shaded}
+
+P-valores de ManW
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(GIO1}\OperatorTok{~}\NormalTok{COOP,}\DataTypeTok{data=}\NormalTok{df, }\DataTypeTok{Paired =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{exact =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  GIO1 by COOP
+## W = 522146456, p-value < 2.2e-16
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(GIO2}\OperatorTok{~}\NormalTok{COOP,}\DataTypeTok{data=}\NormalTok{df, }\DataTypeTok{Paired =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{exact =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  GIO2 by COOP
+## W = 522807048, p-value < 2.2e-16
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(GIO3}\OperatorTok{~}\NormalTok{COOP,}\DataTypeTok{data=}\NormalTok{df, }\DataTypeTok{Paired =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{exact =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  GIO3 by COOP
+## W = 513178808, p-value < 2.2e-16
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Replicar para todas las posiblidades}
+\end{Highlighting}
+\end{Shaded}
+
+Valores Z de ManW
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df}\OperatorTok{$}\NormalTok{COOP <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(df}\OperatorTok{$}\NormalTok{COOP)}
+\NormalTok{df.gr}\OperatorTok{$}\NormalTok{COOP <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(df.gr}\OperatorTok{$}\NormalTok{COOP)}
+\NormalTok{df.cr}\OperatorTok{$}\NormalTok{COOP <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(df.cr}\OperatorTok{$}\NormalTok{COOP)}
+\NormalTok{df.re}\OperatorTok{$}\NormalTok{COOP <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(df.re}\OperatorTok{$}\NormalTok{COOP)}
+
+\KeywordTok{wilcox_test}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO1 }\OperatorTok{~}\StringTok{ }\NormalTok{df}\OperatorTok{$}\NormalTok{COOP)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Asymptotic Wilcoxon-Mann-Whitney Test
+## 
+## data:  df$GIO1 by df$COOP (0, 1)
+## Z = 38.661, p-value < 2.2e-16
+## alternative hypothesis: true mu is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox_test}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO2 }\OperatorTok{~}\StringTok{ }\NormalTok{df}\OperatorTok{$}\NormalTok{COOP)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Asymptotic Wilcoxon-Mann-Whitney Test
+## 
+## data:  df$GIO2 by df$COOP (0, 1)
+## Z = 38.439, p-value < 2.2e-16
+## alternative hypothesis: true mu is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox_test}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO2 }\OperatorTok{~}\StringTok{ }\NormalTok{df}\OperatorTok{$}\NormalTok{COOP)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Asymptotic Wilcoxon-Mann-Whitney Test
+## 
+## data:  df$GIO2 by df$COOP (0, 1)
+## Z = 38.439, p-value < 2.2e-16
+## alternative hypothesis: true mu is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#La función wilcox_test necesita que se le indique una variable como factor.}
+\CommentTok{#Repetir para todas las posibilidades}
+\end{Highlighting}
+\end{Shaded}
+
+Cálculo de medias (para las que cooperan y para las que no)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df}\FloatTok{.0}\NormalTok{ <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(df, COOP }\OperatorTok{==}\StringTok{ "0"}\NormalTok{)}
+\NormalTok{df}\FloatTok{.1}\NormalTok{ <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(df, COOP }\OperatorTok{==}\StringTok{ "1"}\NormalTok{)}
+
+\KeywordTok{mean}\NormalTok{(df}\FloatTok{.0}\OperatorTok{$}\NormalTok{GIO1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.155942
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(df}\FloatTok{.1}\OperatorTok{$}\NormalTok{GIO1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.722867
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df.gr}\FloatTok{.0}\NormalTok{ <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(df.gr, COOP }\OperatorTok{==}\StringTok{ "0"}\NormalTok{)}
+\NormalTok{df.gr}\FloatTok{.1}\NormalTok{ <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(df.gr, COOP }\OperatorTok{==}\StringTok{ "1"}\NormalTok{)}
+
+\KeywordTok{mean}\NormalTok{(df.gr}\FloatTok{.0}\OperatorTok{$}\NormalTok{GIO1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.204159
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(df.gr}\FloatTok{.1}\OperatorTok{$}\NormalTok{GIO1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.851886
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Replicar para todos los valores necesarios}
+\end{Highlighting}
+\end{Shaded}
+
+Representación gráfica
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+
+\NormalTok{DOI_}\DecValTok{1}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO1, df}\OperatorTok{$}\NormalTok{COOP)}
+\KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{1}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Cooperation"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+           \DataTypeTok{shade =}\NormalTok{ T)}
+
+\NormalTok{DOI_}\DecValTok{2}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO2, df}\OperatorTok{$}\NormalTok{COOP)}
+\KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{2}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Cooperation"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+           \DataTypeTok{shade =}\NormalTok{ T)}
+
+\NormalTok{DOI_}\DecValTok{3}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO3, df}\OperatorTok{$}\NormalTok{COOP)}
+\KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{3}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Cooperation"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+           \DataTypeTok{shade =}\NormalTok{ T)}
+
+\NormalTok{DOI_}\DecValTok{4}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO1, df}\OperatorTok{$}\NormalTok{COOP)}
+\KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{1}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Cooperation"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+           \DataTypeTok{shade =}\NormalTok{ T)}
+
+\NormalTok{DOI_}\DecValTok{5}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO2, df}\OperatorTok{$}\NormalTok{COOP)}
+\KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{2}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Cooperation"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+           \DataTypeTok{shade =}\NormalTok{ T)}
+
+\NormalTok{DOI_}\DecValTok{6}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO3, df}\OperatorTok{$}\NormalTok{COOP)}
+\KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{3}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Cooperation"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+           \DataTypeTok{shade =}\NormalTok{ T)}
+
+\NormalTok{DOI_}\DecValTok{7}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO1, df}\OperatorTok{$}\NormalTok{COOP)}
+\KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{1}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Cooperation"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+           \DataTypeTok{shade =}\NormalTok{ T)}
+
+\NormalTok{DOI_}\DecValTok{8}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO2, df}\OperatorTok{$}\NormalTok{COOP)}
+\KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{2}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Cooperation"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+           \DataTypeTok{shade =}\NormalTok{ T)}
+
+\NormalTok{DOI_}\DecValTok{9}\NormalTok{ <-}\KeywordTok{table}\NormalTok{(df}\OperatorTok{$}\NormalTok{GIO3, df}\OperatorTok{$}\NormalTok{COOP)}
+\KeywordTok{mosaicplot}\NormalTok{(DOI_}\DecValTok{3}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Cooperation"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Likert scale"}\NormalTok{,}
+           \DataTypeTok{shade =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Cooperation_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\end{document}

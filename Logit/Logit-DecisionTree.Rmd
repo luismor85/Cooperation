@@ -1,0 +1,126 @@
+---
+title: "Logit-DecisionTree"
+author: "luismor"
+date: "14/4/2021"
+output: html_document
+---
+
+```{r}
+library(readxl)
+library(dplyr)
+library(psych)
+library(caret)
+library(tree)
+library(randomForest)
+library(parallel)
+library(doParallel)
+```
+
+```{r Carga de datos}
+#Carga de datos
+df <- read_excel("/Users/unimooc/Dropbox/2021/Directorio R/Research/Cooperation/DATOS 2004-2014.xlsx", sheet = "2004-2014")
+
+df <- na.omit(df)
+anyNA(df)
+
+df.gr <- filter(df, TIEMPO <= 2007)
+df.cr <- filter(df, TIEMPO %in% c(2008, 2009, 2010))
+df.re <- filter(df, TIEMPO >= 2011)
+```
+
+```{r partition}
+  set.seed(2021)
+  df.gr.p <- createDataPartition(y = df.gr$INTINN,
+                                    p = 0.8, list = F)
+  Training.gr <- df.gr[df.gr.p,]
+  Test.gr <- df.gr[-df.gr.p,]
+  
+  
+  df.cr.p <- createDataPartition(y = df.cr$INTINN,
+                                    p = 0.8, list = F)
+  Training.cr <- df.cr[df.cr.p,]
+  Test.cr <- df.cr[-df.cr.p,]
+  
+  
+  df.re.p <- createDataPartition(y = df.re$INTINN,
+                                    p = 0.8, list = F)
+  Training.re <- df.re[df.re.p,]
+  Test.re <- df.re[-df.re.p,]
+```
+
+```{r}
+arbol <- tree(TAMANO ~ INTINN + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO + COOP + TIEMPO + GIO1 + GIO2 + GIO3 + GIO4 +
+                   GIO5 + GIO6 + GIO7 + GIO8 + GIO9,
+              data=df, split = "deviance")
+summary(arbol.gr)
+
+plot(arbol.gr, type = "proportional")
+text(arbol.gr, pretty = 0)
+```
+
+```{r}
+library(rpart)
+library(rpart.plot)
+
+arbol.gr <- rpart(INTINN ~ TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+              data=Training.gr, 
+              control = rpart.control(minsplit=1, minbucket=1, cp=0))
+
+arbol.gr
+rpart.plot(arbol.gr)
+
+plot(arbol.gr, type = "proportional")
+text(arbol.gr, pretty = 0)
+```
+
+
+```{r}
+cluster <- makeCluster(detectCores() - 1) 
+registerDoParallel(cluster) # procesamiento paralelo
+
+# Método de validación cruzada (10-fold)
+fitControl <- trainControl(method = "cv", 
+                           number = 10, 
+                           search = "grid",
+                           allowParallel = TRUE)
+
+# Hiperparámetro a optimizar: número de predictores aleatorios en cada ramificación.
+grid_mtry <- expand.grid(mtry = c(2:18))
+
+```
+
+```{r}
+# Ajuste del modelo random forest
+set.seed(2021)
+rf <- train(INTINN ~ TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO + COOP,
+                   data=df.gr, 
+                   method = "rf",
+                   metric = "RMSE",
+                   ntree = 50,
+                   tuneGrid = grid_mtry, 
+                   trControl = fitControl)
+rf
+```
+
+
+```{r}
+par(mfrow = c(1, 2))
+
+plot(rf)
+plot(varImp(rf, scale = FALSE), top = 10)
+```
+
+
+
+
+
+
+
+
+

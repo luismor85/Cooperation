@@ -1,0 +1,295 @@
+---
+title: "Cooperation in innovation"
+author: "luismor"
+date: "3/25/2021"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r Carga de datos}
+#Carga de datos
+library(readxl)
+library(dplyr)
+
+df <- read_excel("/Users/unimooc/Dropbox/2021/Directorio R/Research/Cooperation/DATOS 2004-2014.xlsx", sheet = "2004-2014")
+head(df)
+
+df <- na.omit(df)
+anyNA(df)
+
+df.gr <- filter(df, TIEMPO <= 2007)
+df.cr <- filter(df, TIEMPO %in% c(2008, 2009, 2010))
+df.re <- filter(df, TIEMPO >= 2011)
+```
+
+## Chi Cuadrado
+
+Creamos un dataframe con las variables COOP y Tiempo.
+```{r}
+df.or <- df[,c("COOP","TIEMPO")]
+```
+
+Creamos variables categóricas con la inormación de "TIEMPO" y "COOP"
+```{r categóricas}
+facTiemp <- factor(df$TIEMPO,
+                 levels = c(2004,2005,2006,2007,
+                            2008,2009,2010
+                            ,2011, 2012, 2013, 2014),
+                 labels = c("Growth", "Growth", "Growth", "Growth", 
+                            "Crisis", "Crisis", "Crisis", 
+                            "Recovery", "Recovery", "Recovery", "Recovery"))
+df$facTiemp <- facTiemp
+
+facCoop <- factor(df$COOP,
+                 levels = c(0, 1),
+                 labels = c("NoCoop", "Coop"))
+
+df$facCoop <- facCoop
+```
+
+Creamos variables dicotómicas en función de los distintos momentos del periodo económico
+```{r}
+#Etapa de crecimiento
+df$facTiempG <- factor(df$TIEMPO,
+                   levels = c(2004,2005,2006,2007,
+                              2008,2009,2010
+                              ,2011, 2012, 2013, 2014),
+                   labels = c("1", "1", "1", "1", 
+                              "0", "0", "0", 
+                              "0", "0", "0", "0"))
+
+#Etapa de crisis
+df$facTiempC <- factor(df$TIEMPO,
+                    levels = c(2004,2005,2006,2007,
+                               2008,2009,2010
+                               ,2011, 2012, 2013, 2014),
+                    labels = c("0", "0", "0", "0", 
+                               "1", "1", "1", 
+                               "0", "0", "0", "0"))
+
+#Etapa de recuperación
+df$facTiempR <- factor(df$TIEMPO,
+                    levels = c(2004,2005,2006,2007,
+                               2008,2009,2010
+                               ,2011, 2012, 2013, 2014),
+                    labels = c("0", "0", "0", "0", 
+                               "0", "0", "0", 
+                               "1", "1", "1", "1"))
+```
+
+### Chi cuadrado - Pearson para la primera hipótesis
+
+H1: Companies change their perspective on cooperation to develop innovation according to the economic cycle.
+
+```{r}
+tablaCoop <-table(df$facCoop, df$facTiemp)
+chisq.test(tablaCoop,correct=FALSE)
+
+tablaCoopG <-table(df$facCoop, df$facTiempG)
+chisq.test(tablaCoopG, correct=FALSE)
+
+tablaCoopC <-table(df$facCoop, df$facTiempC)
+chisq.test(tablaCoopC, correct=FALSE)
+
+tablaCoopR <-table(df$facCoop, df$facTiempR)
+chisq.test(tablaCoopR, correct=FALSE)
+```
+
+Cálculo de medias
+```{r}
+  mean(df$COOP)
+  mean(df.gr$COOP)
+  mean(df.cr$COOP)    
+  mean(df.re$COOP)
+```
+
+Representación gráfica
+
+```{r}
+mosaicplot(tablaCoop, ylab="Economy Cycle", xlab = "Cooperation",
+           shade = T)
+```
+
+### Chi cuadrado - Pearson para la segunda hipótesis
+H2: Companies change their views on the competitive need for innovation depending on the economic cycle.
+
+```{r}
+    DOI_1 <-table(df$GIO1, df$facTiemp)
+    chisq.test(DOI_1,correct=FALSE)
+    
+    DOI_2 <-table(df$GIO2, df$facTiemp)
+    chisq.test(DOI_2,correct=FALSE)
+    
+    DOI_3 <-table(df$GIO3, df$facTiemp)
+    chisq.test(DOI_3,correct=FALSE)
+    
+    DOI_4 <-table(df$GIO4, df$facTiemp)
+    chisq.test(DOI_4,correct=FALSE)
+    
+    DOI_5 <-table(df$GIO5, df$facTiemp)
+    chisq.test(DOI_5,correct=FALSE)
+    
+    DOI_6 <-table(df$GIO6, df$facTiemp)
+    chisq.test(DOI_6,correct=FALSE)
+    
+    DOI_7 <-table(df$GIO7, df$facTiemp)
+    chisq.test(DOI_7,correct=FALSE)
+    
+    DOI_8 <-table(df$GIO8, df$facTiemp)
+    chisq.test(DOI_8,correct=FALSE)
+    
+    DOI_9 <-table(df$GIO9, df$facTiemp)
+    chisq.test(DOI_9,correct=FALSE)
+    
+    #Replicar para facTiempG, facTiempC, facTiempR
+    
+```
+
+Cálculo de medias
+```{r}
+  mean(df$GIO1)
+  mean(df$GIO2)
+  mean(df$GIO3)
+
+  mean(df.gr$GIO1)
+  mean(df.cr$GIO1)    
+  mean(df.re$GIO1)
+  
+  #Replicar para todos los casos restantes
+```
+
+Representación gráfica
+
+```{r}
+par(mfrow = c(3,3))
+   mosaicplot(DOI_1, ylab="Economy Cycle", xlab = "Likert scale",
+               shade = T)
+    
+    mosaicplot(DOI_2, ylab="Economy Cycle", xlab = "Likert scale",
+               shade = T)
+    
+    mosaicplot(DOI_3, ylab="Economy Cycle", xlab = "Likert scale",
+               shade = T)    
+
+    mosaicplot(DOI_4, ylab="Economy Cycle", xlab = "Likert scale",
+               shade = T)
+    
+    mosaicplot(DOI_5, ylab="Economy Cycle", xlab = "Likert scale",
+               shade = T)
+    
+    mosaicplot(DOI_6, ylab="Economy Cycle", xlab = "Likert scale",
+               shade = T)
+    
+    mosaicplot(DOI_7, ylab="Economy Cycle", xlab = "Likert scale",
+               shade = T)
+    
+    mosaicplot(DOI_8, ylab="Economy Cycle", xlab = "Likert scale",
+               shade = T)
+    
+    mosaicplot(DOI_9, ylab="Economy Cycle", xlab = "Likert scale",
+               shade = T)
+```
+
+### Chi cuadrado - Pearson para la tercera hipótesis
+H3: Companies change their views on the problems and barriers to entry for developing innovation according to the economic cycle.
+
+Mismo proceso que anterior.
+
+## U de Mann-Whitney
+
+### Mann-Whitney para la cuarta hipótesis
+H4: The firms' perspective on the competitive importance of innovation and the possible problems for the development of innovation conditions their response on whether or not to cooperate with technology centres.
+
+```{r, messages = F}
+library(survival)
+library(coin)
+```
+
+P-valores de ManW
+
+```{r}
+wilcox.test(GIO1~COOP,data=df, Paired = TRUE, exact = FALSE)
+wilcox.test(GIO2~COOP,data=df, Paired = TRUE, exact = FALSE)
+wilcox.test(GIO3~COOP,data=df, Paired = TRUE, exact = FALSE)
+
+#Replicar para todas las posiblidades
+```
+
+Valores Z de ManW
+
+```{r}
+df$COOP <- as.factor(df$COOP)
+df.gr$COOP <- as.factor(df.gr$COOP)
+df.cr$COOP <- as.factor(df.cr$COOP)
+df.re$COOP <- as.factor(df.re$COOP)
+
+wilcox_test(df$GIO1 ~ df$COOP)
+wilcox_test(df$GIO2 ~ df$COOP)
+wilcox_test(df$GIO2 ~ df$COOP)
+
+#La función wilcox_test necesita que se le indique una variable como factor.
+#Repetir para todas las posibilidades
+
+```
+
+Cálculo de medias (para las que cooperan y para las que no)
+
+```{r}
+df.0 <- filter(df, COOP == "0")
+df.1 <- filter(df, COOP == "1")
+
+mean(df.0$GIO1)
+mean(df.1$GIO1)
+
+df.gr.0 <- filter(df.gr, COOP == "0")
+df.gr.1 <- filter(df.gr, COOP == "1")
+
+mean(df.gr.0$GIO1)
+mean(df.gr.1$GIO1)
+
+#Replicar para todos los valores necesarios
+```
+
+Representación gráfica
+
+```{r}
+par(mfrow = c(3,3))
+
+DOI_1 <-table(df$GIO1, df$COOP)
+mosaicplot(DOI_1, ylab="Cooperation", xlab = "Likert scale",
+           shade = T)
+
+DOI_2 <-table(df$GIO2, df$COOP)
+mosaicplot(DOI_2, ylab="Cooperation", xlab = "Likert scale",
+           shade = T)
+
+DOI_3 <-table(df$GIO3, df$COOP)
+mosaicplot(DOI_3, ylab="Cooperation", xlab = "Likert scale",
+           shade = T)
+
+DOI_4 <-table(df$GIO1, df$COOP)
+mosaicplot(DOI_1, ylab="Cooperation", xlab = "Likert scale",
+           shade = T)
+
+DOI_5 <-table(df$GIO2, df$COOP)
+mosaicplot(DOI_2, ylab="Cooperation", xlab = "Likert scale",
+           shade = T)
+
+DOI_6 <-table(df$GIO3, df$COOP)
+mosaicplot(DOI_3, ylab="Cooperation", xlab = "Likert scale",
+           shade = T)
+
+DOI_7 <-table(df$GIO1, df$COOP)
+mosaicplot(DOI_1, ylab="Cooperation", xlab = "Likert scale",
+           shade = T)
+
+DOI_8 <-table(df$GIO2, df$COOP)
+mosaicplot(DOI_2, ylab="Cooperation", xlab = "Likert scale",
+           shade = T)
+
+DOI_9 <-table(df$GIO3, df$COOP)
+mosaicplot(DOI_3, ylab="Cooperation", xlab = "Likert scale",
+           shade = T)
+```

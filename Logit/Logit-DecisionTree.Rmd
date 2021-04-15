@@ -2,7 +2,9 @@
 title: "Logit-DecisionTree"
 author: "luismor"
 date: "14/4/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r}
@@ -23,6 +25,60 @@ df <- read_excel("/Users/unimooc/Dropbox/2021/Directorio R/Research/Cooperation/
 df <- na.omit(df)
 anyNA(df)
 
+#Transformamos 1-2 = 1, 3-4 = 0
+df$GIO1[df$GIO1 == 2] = 1
+df$GIO2[df$GIO2 == 2] = 1
+df$GIO3[df$GIO3 == 2] = 1
+df$GIO4[df$GIO4 == 2] = 1
+df$GIO5[df$GIO5 == 2] = 1
+df$GIO6[df$GIO6 == 2] = 1
+df$GIO7[df$GIO7 == 2] = 1
+df$GIO8[df$GIO8 == 2] = 1
+df$GIO9[df$GIO9 == 2] = 1
+
+df$GIO1[df$GIO1 == 3] = 0
+df$GIO2[df$GIO2 == 3] = 0
+df$GIO3[df$GIO3 == 3] = 0
+df$GIO4[df$GIO4 == 3] = 0
+df$GIO5[df$GIO5 == 3] = 0
+df$GIO6[df$GIO6 == 3] = 0
+df$GIO7[df$GIO7 == 3] = 0
+df$GIO8[df$GIO8 == 3] = 0
+df$GIO9[df$GIO9 == 3] = 0
+
+df$GIO1[df$GIO1 == 4] = 0
+df$GIO2[df$GIO2 == 4] = 0
+df$GIO3[df$GIO3 == 4] = 0
+df$GIO4[df$GIO4 == 4] = 0
+df$GIO5[df$GIO5 == 4] = 0
+df$GIO6[df$GIO6 == 4] = 0
+df$GIO7[df$GIO7 == 4] = 0
+df$GIO8[df$GIO8 == 4] = 0
+df$GIO9[df$GIO9 == 4] = 0
+
+#Convertimos variables a factores
+df$MDOLOCAL <- factor(df$MDOLOCAL) 
+df$MDONAC <- factor(df$MDONAC) 
+df$MDOUE <- factor(df$MDOUE) 
+df$INNPROD <- factor(df$INNPROD)
+df$INNPROC <- factor(df$INNPROC)
+df$INNFABRI <- factor(df$INNFABRI) 
+df$INNOBIEN <- factor(df$INNOBIEN) 
+df$INNOSERV <- factor(df$INNOSERV) 
+df$INNLOGIS <- factor(df$INNLOGIS)
+df$INNAPOYO <- factor(df$INNAPOYO)
+df$COOP <- factor(df$COOP)
+df$GIO1 <- factor(df$GIO1)
+df$GIO2 <- factor(df$GIO2)
+df$GIO3 <- factor(df$GIO3)
+df$GIO4 <- factor(df$GIO4)
+df$GIO5 <- factor(df$GIO5)
+df$GIO6 <- factor(df$GIO6)
+df$GIO7 <- factor(df$GIO7)
+df$GIO8 <- factor(df$GIO8)
+df$GIO9 <- factor(df$GIO9)
+
+#Creamos bases de datos de ciclos económicos
 df.gr <- filter(df, TIEMPO <= 2007)
 df.cr <- filter(df, TIEMPO %in% c(2008, 2009, 2010))
 df.re <- filter(df, TIEMPO >= 2011)
@@ -30,6 +86,12 @@ df.re <- filter(df, TIEMPO >= 2011)
 
 ```{r partition}
   set.seed(2021)
+  df.p <- createDataPartition(y = df$INTINN,
+                                    p = 0.8, list = F)
+  Training <- df[df.p,]
+  Test <- df[-df.p,]
+
+  
   df.gr.p <- createDataPartition(y = df.gr$INTINN,
                                     p = 0.8, list = F)
   Training.gr <- df.gr[df.gr.p,]
@@ -48,79 +110,407 @@ df.re <- filter(df, TIEMPO >= 2011)
   Test.re <- df.re[-df.re.p,]
 ```
 
-```{r}
-arbol <- tree(TAMANO ~ INTINN + MDOLOCAL + MDONAC + MDOUE + INNPROD +
-                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
-                   INNAPOYO + COOP + TIEMPO + GIO1 + GIO2 + GIO3 + GIO4 +
-                   GIO5 + GIO6 + GIO7 + GIO8 + GIO9,
-              data=df, split = "deviance")
-summary(arbol.gr)
-
-plot(arbol.gr, type = "proportional")
-text(arbol.gr, pretty = 0)
-```
-
-```{r}
-library(rpart)
-library(rpart.plot)
-
-arbol.gr <- rpart(INTINN ~ TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+```{r LOGIT.gr.01}
+lg.gr.01 <- glm(GIO1 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
                    INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
                    INNAPOYO,
-              data=Training.gr, 
-              control = rpart.control(minsplit=1, minbucket=1, cp=0))
+                   family=binomial(link = "logit"),
+                   data = Training.gr)
+summary(lg.gr.01)
 
-arbol.gr
-rpart.plot(arbol.gr)
+probabs.gr.01 <- predict(lg.gr.01, Test.gr, type='response') 
+preds.gr.01 <- ifelse(probabs.gr.01 > 0.5, 1, 0)
 
-plot(arbol.gr, type = "proportional")
-text(arbol.gr, pretty = 0)
-```
-
-
-```{r}
-cluster <- makeCluster(detectCores() - 1) 
-registerDoParallel(cluster) # procesamiento paralelo
-
-# Método de validación cruzada (10-fold)
-fitControl <- trainControl(method = "cv", 
-                           number = 10, 
-                           search = "grid",
-                           allowParallel = TRUE)
-
-# Hiperparámetro a optimizar: número de predictores aleatorios en cada ramificación.
-grid_mtry <- expand.grid(mtry = c(2:18))
+confusionMatrix(factor(preds.gr.01), factor(Test.gr$GIO1))
 
 ```
 
-```{r}
-# Ajuste del modelo random forest
-set.seed(2021)
-rf <- train(INTINN ~ TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+```{r LOGIT.gr.02}
+lg.gr.02 <- glm(GIO2 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
                    INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
-                   INNAPOYO + COOP,
-                   data=df.gr, 
-                   method = "rf",
-                   metric = "RMSE",
-                   ntree = 50,
-                   tuneGrid = grid_mtry, 
-                   trControl = fitControl)
-rf
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.gr)
+summary(lg.gr.02)
+
+probabs.gr.02 <- predict(lg.gr.02, Test.gr, type='response') 
+preds.gr.02 <- ifelse(probabs.gr.02 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.gr.02), factor(Test.gr$GIO2))
+
 ```
 
+```{r LOGIT.gr.03}
+lg.gr.03 <- glm(GIO3 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.gr)
+summary(lg.gr.03)
 
-```{r}
-par(mfrow = c(1, 2))
+probabs.gr.03 <- predict(lg.gr.03, Test.gr, type='response') 
+preds.gr.03 <- ifelse(probabs.gr.03 > 0.5, 1, 0)
 
-plot(rf)
-plot(varImp(rf, scale = FALSE), top = 10)
+confusionMatrix(factor(preds.gr.03), factor(Test.gr$GIO3))
+
 ```
 
+```{r LOGIT.gr.04}
+lg.gr.04 <- glm(GIO4 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.gr)
+summary(lg.gr.04)
 
+probabs.gr.04 <- predict(lg.gr.04, Test.gr, type='response') 
+preds.gr.04 <- ifelse(probabs.gr.04 > 0.5, 1, 0)
 
+confusionMatrix(factor(preds.gr.04), factor(Test.gr$GIO4))
 
+```
 
+```{r LOGIT.gr.05}
+lg.gr.05 <- glm(GIO5 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.gr)
+summary(lg.gr.05)
 
+probabs.gr.05 <- predict(lg.gr.05, Test.gr, type='response') 
+preds.gr.05 <- ifelse(probabs.gr.05 > 0.5, 1, 0)
 
+confusionMatrix(factor(preds.gr.05), factor(Test.gr$GIO5))
 
+```
 
+```{r LOGIT.gr.06}
+lg.gr.06 <- glm(GIO6 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.gr)
+summary(lg.gr.06)
+
+probabs.gr.06 <- predict(lg.gr.06, Test.gr, type='response') 
+preds.gr.06 <- ifelse(probabs.gr.06 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.gr.06), factor(Test.gr$GIO6))
+
+```
+
+```{r LOGIT.gr.07}
+lg.gr.07 <- glm(GIO7 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.gr)
+summary(lg.gr.07)
+
+probabs.gr.07 <- predict(lg.gr.07, Test.gr, type='response') 
+preds.gr.07 <- ifelse(probabs.gr.07 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.gr.07), factor(Test.gr$GIO7))
+
+```
+
+```{r LOGIT.gr.08}
+lg.gr.08 <- glm(GIO8 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.gr)
+summary(lg.gr.08)
+
+probabs.gr.08 <- predict(lg.gr.08, Test.gr, type='response') 
+preds.gr.08 <- ifelse(probabs.gr.08 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.gr.08), factor(Test.gr$GIO8))
+
+```
+
+```{r LOGIT.gr.09}
+lg.gr.09 <- glm(GIO9 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.gr)
+summary(lg.gr.09)
+
+probabs.gr.09 <- predict(lg.gr.09, Test.gr, type='response') 
+preds.gr.09 <- ifelse(probabs.gr.09 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.gr.09), factor(Test.gr$GIO9))
+
+```
+
+```{r LOGIT.cr.01}
+lg.cr.01 <- glm(GIO1 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.cr)
+summary(lg.cr.01)
+
+probabs.cr.01 <- predict(lg.cr.01, Test.cr, type='response') 
+preds.cr.01 <- ifelse(probabs.cr.01 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.cr.01), factor(Test.cr$GIO1))
+
+```
+
+```{r LOGIT.cr.02}
+lg.cr.02 <- glm(GIO2 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.cr)
+summary(lg.cr.02)
+
+probabs.cr.02 <- predict(lg.cr.02, Test.cr, type='response') 
+preds.cr.02 <- ifelse(probabs.cr.02 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.cr.02), factor(Test.cr$GIO2))
+
+```
+
+```{r LOGIT.cr.03}
+lg.cr.03 <- glm(GIO3 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.cr)
+summary(lg.cr.03)
+
+probabs.cr.03 <- predict(lg.cr.03, Test.cr, type='response') 
+preds.cr.03 <- ifelse(probabs.cr.03 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.cr.03), factor(Test.cr$GIO3))
+
+```
+
+```{r LOGIT.cr.04}
+lg.cr.04 <- glm(GIO4 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.cr)
+summary(lg.cr.04)
+
+probabs.cr.04 <- predict(lg.cr.04, Test.cr, type='response') 
+preds.cr.04 <- ifelse(probabs.cr.04 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.cr.04), factor(Test.cr$GIO4))
+
+```
+
+```{r LOGIT.cr.05}
+lg.cr.05 <- glm(GIO5 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.cr)
+summary(lg.cr.05)
+
+probabs.cr.05 <- predict(lg.cr.05, Test.cr, type='response') 
+preds.cr.05 <- ifelse(probabs.cr.05 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.cr.05), factor(Test.cr$GIO5))
+
+```
+
+```{r LOGIT.cr.06}
+lg.cr.06 <- glm(GIO6 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.cr)
+summary(lg.cr.06)
+
+probabs.cr.06 <- predict(lg.cr.06, Test.cr, type='response') 
+preds.cr.06 <- ifelse(probabs.cr.06 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.cr.06), factor(Test.cr$GIO6))
+
+```
+
+```{r LOGIT.cr.07}
+lg.cr.07 <- glm(GIO7 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.cr)
+summary(lg.cr.07)
+
+probabs.cr.07 <- predict(lg.cr.07, Test.cr, type='response') 
+preds.cr.07 <- ifelse(probabs.cr.07 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.cr.07), factor(Test.cr$GIO7))
+
+```
+
+```{r LOGIT.cr.08}
+lg.cr.08 <- glm(GIO8 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.cr)
+summary(lg.cr.08)
+
+probabs.cr.08 <- predict(lg.cr.08, Test.cr, type='response') 
+preds.cr.08 <- ifelse(probabs.cr.08 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.cr.08), factor(Test.cr$GIO8))
+
+```
+
+```{r LOGIT.cr.09}
+lg.cr.09 <- glm(GIO9 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.cr)
+summary(lg.cr.09)
+
+probabs.cr.09 <- predict(lg.cr.09, Test.cr, type='response') 
+preds.cr.09 <- ifelse(probabs.cr.09 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.cr.09), factor(Test.cr$GIO9))
+
+```
+
+```{r LOGIT.re.01}
+lg.re.01 <- glm(GIO1 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.re)
+summary(lg.re.01)
+
+probabs.re.01 <- predict(lg.re.01, Test.re, type='response') 
+preds.re.01 <- ifelse(probabs.re.01 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.re.01), factor(Test.re$GIO1))
+
+```
+
+```{r LOGIT.re.02}
+lg.re.02 <- glm(GIO2 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.re)
+summary(lg.re.02)
+
+probabs.re.02 <- predict(lg.re.02, Test.re, type='response') 
+preds.re.02 <- ifelse(probabs.re.02 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.re.02), factor(Test.re$GIO2))
+
+```
+
+```{r LOGIT.re.03}
+lg.re.03 <- glm(GIO3 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.re)
+summary(lg.re.03)
+
+probabs.re.03 <- predict(lg.re.03, Test.re, type='response') 
+preds.re.03 <- ifelse(probabs.re.03 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.re.03), factor(Test.re$GIO3))
+
+```
+
+```{r LOGIT.re.04}
+lg.re.04 <- glm(GIO4 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.re)
+summary(lg.re.04)
+
+probabs.re.04 <- predict(lg.re.04, Test.re, type='response') 
+preds.re.04 <- ifelse(probabs.re.04 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.re.04), factor(Test.re$GIO4))
+
+```
+
+```{r LOGIT.re.05}
+lg.re.05 <- glm(GIO5 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.re)
+summary(lg.re.05)
+
+probabs.re.05 <- predict(lg.re.05, Test.re, type='response') 
+preds.re.05 <- ifelse(probabs.re.05 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.re.05), factor(Test.re$GIO5))
+
+```
+
+```{r LOGIT.re.06}
+lg.re.06 <- glm(GIO6 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.re)
+summary(lg.re.06)
+
+probabs.re.06 <- predict(lg.re.06, Test.re, type='response') 
+preds.re.06 <- ifelse(probabs.re.06 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.re.06), factor(Test.re$GIO6))
+
+```
+
+```{r LOGIT.re.07}
+lg.re.07 <- glm(GIO7 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.re)
+summary(lg.re.07)
+
+probabs.re.07 <- predict(lg.re.07, Test.re, type='response') 
+preds.re.07 <- ifelse(probabs.re.07 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.re.07), factor(Test.re$GIO7))
+
+```
+
+```{r LOGIT.re.08}
+lg.re.08 <- glm(GIO8 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.re)
+summary(lg.re.08)
+
+probabs.re.08 <- predict(lg.re.08, Test.re, type='response') 
+preds.re.08 <- ifelse(probabs.re.08 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.re.08), factor(Test.re$GIO8))
+
+```
+
+```{r LOGIT.re.09}
+lg.re.09 <- glm(GIO9 ~ COOP + TAMANO + MDOLOCAL + MDONAC + MDOUE + INNPROD +
+                   INNOBIEN + INNOSERV + INNPROC + INNFABRI + INNLOGIS +
+                   INNAPOYO,
+                   family=binomial(link = "logit"),
+                   data = Training.re)
+summary(lg.re.09)
+
+probabs.re.09 <- predict(lg.re.09, Test.re, type='response') 
+preds.re.09 <- ifelse(probabs.re.09 > 0.5, 1, 0)
+
+confusionMatrix(factor(preds.re.09), factor(Test.re$GIO9))
+
+```
